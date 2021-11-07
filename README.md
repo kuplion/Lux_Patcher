@@ -2,7 +2,7 @@
 
 ## Description
 
-Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.com/skyrimspecialedition/mods/1377). Also patches some modded locations to use ELE's lighting templates & image spaces, and adjusts some modded imagespaces & lights. 
+Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.com/skyrimspecialedition/mods/1377). Also patches some modded locations to use ELE's lighting templates & image spaces, and adjusts some modded imagespaces & lights.
 
 <details>
   <summary>Detailed list of included changes</summary>
@@ -29,9 +29,9 @@ Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.
     - [Legacy of the Dragonborn SSE](https://www.nexusmods.com/skyrimspecialedition/mods/11802) (5.5.2, 4.1.1 support included)
       - Added light bulb colors
       - v5 version uses brighter lighting templates for the museum interior, since the lighting almost purely depends on those now
+    - [Medieval Lanterns of Skyrim](https://www.nexusmods.com/skyrimspecialedition/mods/27622) (any version)
     - [Ravengate](https://www.nexusmods.com/skyrimspecialedition/mods/12617) (0.06BTASSE)
       - Added light bulb colors
-    - [Medieval Lanterns of Skyrim](https://www.nexusmods.com/skyrimspecialedition/mods/27622) (any version)
 </details>
 
 ## Installation
