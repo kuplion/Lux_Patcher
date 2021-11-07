@@ -91,16 +91,18 @@ namespace ELE_Patcher.Utility
 		}
 		#endregion
 
-		#region Internal helpers
+		#region Constants
 		static bool dummy = false;
-
-		private static float NormalizeRadians2Pi(float radians)
+		static readonly float twoPI = 2f * MathF.PI;
+		public static readonly float rotationAllowedDiff = twoPI / 360E4f;
+		#endregion
+		#region Normalization
+		private static float NormalizeRadians2Pi(this float radians)
 		{
-			float TwoPI = 2f * MathF.PI;
-			float result = radians % TwoPI;
-			return result > 0 ? result : result + TwoPI;
+			float result = radians % twoPI;
+			return result > 0 ? result : result + twoPI;
 		}
-		internal static P3Float NormalizeRadians2Pi(P3Float radiansStruct)
+		internal static P3Float NormalizeRadians2Pi(this P3Float radiansStruct)
 		{
 			float x = NormalizeRadians2Pi(radiansStruct.X);
 			float y = NormalizeRadians2Pi(radiansStruct.Y);
@@ -108,59 +110,24 @@ namespace ELE_Patcher.Utility
 
 			return new(x, y, z);
 		}
-
-		internal static void FixNull<TFormLink>(this TFormLink linkToFix)
-			where TFormLink : IFormLink<IMajorRecordCommonGetter>
-		{
-			if (linkToFix.IsNull)
-				linkToFix.SetToNull();
-		}
-		internal static TFormLink WithFixedNull<TFormLink>(this TFormLink linkToFix)
-			where TFormLink : IFormLink<IMajorRecordCommonGetter>
-		{
-			linkToFix.FixNull();
-			return linkToFix;
-		}
-
+		#endregion
 		#region Nearly equals, for floating point numbers
-		internal static bool NearlyEquals(float? first, float? second, float allowedDiff = 1E-06f, (float min, float max)? range = null)
+		internal static bool NearlyEquals(float? first, float? second, float allowedDiff = 1E-06f)
 		{
 			if (first == null || second == null)
 				return Equals(first, second);
 			else
-			{
-				bool equal = MathF.Abs((float)first - (float)second) < allowedDiff;
-				if (!equal && range != null)
-				{
-					float allowedEdgeDiff = allowedDiff / 2f;
-
-					float firstMinDiff = MathF.Abs((float)first - range.Value.min);
-					float firstMaxDiff = MathF.Abs((float)first - range.Value.max);
-					float secondMinDiff = MathF.Abs((float)second - range.Value.min);
-					float secondMaxDiff = MathF.Abs((float)second - range.Value.max);
-
-					//bool edge1 = (firstMinDiff + secondMaxDiff) < allowedDiff;
-					//bool edge2 = (firstMaxDiff + secondMinDiff) < allowedDiff;
-
-					bool firstIsEdge = firstMinDiff < allowedEdgeDiff || firstMaxDiff < allowedEdgeDiff;
-					bool secondIsEdge = secondMinDiff < allowedEdgeDiff || secondMaxDiff < allowedEdgeDiff;
-
-					equal = firstIsEdge && secondIsEdge;
-				}
-
-				return equal;
-			}
+				return MathF.Abs((float)first - (float)second) < allowedDiff;
 		}
-		internal static bool NearlyEquals(P3Float? first, P3Float? second, float allowedDiff = 1E-06f, (float min, float max)? range = null)
+		internal static bool NearlyEquals(P3Float? first, P3Float? second, float allowedDiff = 1E-06f)
 		{
-			bool xEquals = NearlyEquals(first?.X, second?.X, allowedDiff, range);
-			bool yEquals = NearlyEquals(first?.Y, second?.Y, allowedDiff, range);
-			bool zEquals = NearlyEquals(first?.Z, second?.Z, allowedDiff, range);
+			bool xEquals = NearlyEquals(first?.X, second?.X, allowedDiff);
+			bool yEquals = NearlyEquals(first?.Y, second?.Y, allowedDiff);
+			bool zEquals = NearlyEquals(first?.Z, second?.Z, allowedDiff);
 
 			return xEquals && yEquals && zEquals;
 		}
 		#endregion
-
 		#region Reverted to vanilla
 		internal static bool RevertedToVanilla(float? patched, float? vanilla, float? modded, ref bool isVanilla)
 		{
@@ -169,10 +136,10 @@ namespace ELE_Patcher.Utility
 
 			return !isModded && isVanilla;
 		}
-		private static bool RevertedToVanilla(P3Float? patched, P3Float? vanilla, P3Float? modded, ref bool isVanilla, float allowedDiff = 1E-06f, (float min, float max)? range = null)
+		private static bool RevertedToVanilla(P3Float? patched, P3Float? vanilla, P3Float? modded, ref bool isVanilla, float allowedDiff = 1E-06f)
 		{
-			isVanilla = NearlyEquals(patched, vanilla, allowedDiff, range);
-			bool isModded = NearlyEquals(patched, modded, allowedDiff, range);
+			isVanilla = NearlyEquals(patched, vanilla, allowedDiff);
+			bool isModded = NearlyEquals(patched, modded, allowedDiff);
 
 			return !isModded && isVanilla;
 		}
@@ -184,17 +151,7 @@ namespace ELE_Patcher.Utility
 			return !isModded && isVanilla;
 		}
 		#endregion
-		#region Patch reverted generic
-		internal static float? PatchReverted(this float? patched, IEnumerable<float?> vanillas, float? modded, ref bool changed, (float min, float max)? range = null)
-		{
-			if (vanillas.Any(x => RevertedToVanilla(patched, x, modded, ref dummy)))
-			{
-				changed = true;
-				return modded;
-			}
-			else
-				return patched;
-		}
+		#region Patch reverted
 		internal static P3Float? PatchReverted(this P3Float? patched, IEnumerable<P3Float?> vanillas, P3Float? modded, ref bool changed, float allowedDiff = 1E-06f)
 		{
 			if (vanillas.Any(x => RevertedToVanilla(patched, x, modded, ref dummy, allowedDiff)))
@@ -204,24 +161,6 @@ namespace ELE_Patcher.Utility
 			}
 			else
 				return patched;
-		}
-		internal static TGetter? PatchReverted<TGetter>(this TGetter? patched, IEnumerable<TGetter?> vanillas, TGetter? modded, ref bool changed)
-			where TGetter : ILoquiObjectGetter
-		{
-			if (vanillas.Any(x => RevertedToVanilla(patched, x, modded, ref dummy)))
-			{
-				changed = true;
-				return modded;
-			}
-			else
-				return patched;
-		}
-		#endregion
-		#region Flag helpers
-		internal static bool HasAnyFlag(this Enum value, Enum flags)
-		{
-			var sharedFlags = Convert.ToInt32(value) & Convert.ToInt32(flags);
-			return sharedFlags != 0;
 		}
 		internal static int PatchRevertedFlags(this int valueToPatch, IEnumerable<int> vanillaValues, int moddedValue, ref bool changed)
 		{
@@ -246,7 +185,7 @@ namespace ELE_Patcher.Utility
 			}
 		}
 		internal static TEnum PatchRevertedFlags<TEnum>(this TEnum valueToPatch, IEnumerable<TEnum> vanillaValues, TEnum moddedValue, ref bool changed)
-			where TEnum: struct, Enum
+			where TEnum : struct, Enum
 		{
 			// Convert to int
 			int valueToPatchAsInt = Convert.ToInt32(valueToPatch);
@@ -258,6 +197,12 @@ namespace ELE_Patcher.Utility
 			return (TEnum)Enum.ToObject(typeof(TEnum), patchedAsInt);
 		}
 		#endregion
+		#region Flag helpers
+		internal static bool HasAnyFlag(this Enum value, Enum flags)
+		{
+			var sharedFlags = Convert.ToInt32(value) & Convert.ToInt32(flags);
+			return sharedFlags != 0;
+		}
 		#endregion
 	}
 }

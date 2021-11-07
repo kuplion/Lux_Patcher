@@ -16,9 +16,9 @@ using Noggog;
 
 namespace ELE_Patcher.Utility
 {
-	public static class Modded
+	public static class ModSupport
 	{
-		#region Mod identifier constants, to avoid typos
+		#region Supported mod keys
 		public static readonly ModKey KeyBruma = ModKey.FromNameAndExtension("BSHeartland.esm");
 		public static readonly ModKey KeyCRF = ModKey.FromNameAndExtension("Cutting Room Floor.esp");
 		public static readonly ModKey KeyDarkend = ModKey.FromNameAndExtension("Darkend.esp");
@@ -28,6 +28,19 @@ namespace ELE_Patcher.Utility
 		public static readonly ModKey KeyLotDb = ModKey.FromNameAndExtension("LegacyoftheDragonborn.esm");
 		public static readonly ModKey KeyMedievalLanterns = ModKey.FromNameAndExtension("Medieval Lanterns of Skyrim.esp");
 		public static readonly ModKey KeyRavengate = ModKey.FromNameAndExtension("Ravengate.esp");
+
+		public static readonly HashSet<ModKey> SupportedMods = new()
+		{
+			KeyBruma,
+			KeyCRF,
+			KeyDarkend,
+			KeyFalskaar,
+			KeyHelgenReborn,
+			KeyLanterns,
+			KeyLotDb,
+			KeyMedievalLanterns,
+			KeyRavengate,
+		};
 		#endregion
 		#region ELE-related constants
 		private static readonly Color candle = Color.FromArgb(220, 160, 90);

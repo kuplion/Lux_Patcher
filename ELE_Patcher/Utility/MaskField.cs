@@ -92,10 +92,9 @@ namespace ELE_Patcher.Utility
 					mask.Lighting.Specific!.FogFar = Util.NearlyEquals(firstL.FogFar, secondL.FogFar);
 				}
 
-				// Null:Skyrim.esm to Null
-				var firstLightingTemplate = first.DeepCopy().LightingTemplate.WithFixedNull();
-				var secondLightingTemplate = second.DeepCopy().LightingTemplate.WithFixedNull();
-				mask.LightingTemplate = Equals(firstLightingTemplate, secondLightingTemplate);
+				// Because sometimes Null is Null:Skyrim.esm
+				if (!mask.LightingTemplate)
+					mask.LightingTemplate = first.LightingTemplate.IsNull && second.LightingTemplate.IsNull;
 			}
 		}
 		public static void GetMasks(this PlacedObject patched, HashSet<IPlacedObjectGetter> vanillas, IPlacedObjectGetter modded,
@@ -130,12 +129,11 @@ namespace ELE_Patcher.Utility
 				{
 					mask.Placement = new(true, firstP.GetEqualsMask(secondP));
 					mask.Placement.Specific!.Position = Util.NearlyEquals(firstP.Position, secondP.Position);
-					mask.Placement.Specific!.Rotation = Util.NearlyEquals(Util.NormalizeRadians2Pi(firstP.Rotation), Util.NormalizeRadians2Pi(secondP.Rotation), 0.0000017453293f);
+					mask.Placement.Specific!.Rotation = Util.NearlyEquals(firstP.Rotation.NormalizeRadians2Pi(), secondP.Rotation.NormalizeRadians2Pi(), Util.rotationAllowedDiff);
 				}
 			}
 		}
 	}
-
 	public static class MaskField
 	{
 		#region Light specific

@@ -36,7 +36,7 @@ Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.
 
 ## Installation
 
-### Synthesis
+### Synthesis (Match or 0.20.5+ required)
 
 If you have Synthesis, there are 3 options:
 - In Synthesis, click on Git repository, and choose ELE Patcher from the list of patchers.
