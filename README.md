@@ -18,7 +18,7 @@ Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.
   <summary>Supported mods</summary>
   Patcher was made for version in parantheses, but should mostly work okay for any version.
 
-  - Based on ELE's official patches, with updates here & there as said patches are 2 years old.
+  - Based on ELE's official patches, with updates here & there as said patches are 2 years old
     - [Beyond Skyrim - Bruma SE](https://www.nexusmods.com/skyrimspecialedition/mods/10917) (1.4.2)
     - [Cutting Room Floor - SSE](https://www.nexusmods.com/skyrimspecialedition/mods/276) (3.1.9)
     - [Darkend](https://www.nexusmods.com/skyrimspecialedition/mods/10423) (1.4)
@@ -39,12 +39,11 @@ Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.
 ### Synthesis (Match or 0.20.5+ required)
 
 If you have Synthesis, there are 3 options:
-- In Synthesis, click on Git repository, and choose ELE Patcher from the list of patchers.
-  - Not available at the time of writing due to an issue on Synthesis' side.
-- In Synthesis, click on Git repository, click on Input, and paste in `https://github.com/Benna96-Synthesis/ELE_patcher`. Then choose ELE_Patcher from the projects.
-  - This will cause the name of the patcher to get stuck on Synthesis-Misc-Patchers, at the time of writing there's no way to change the name.
-- [Grab the exe](https://github.com/Benna96-Synthesis/ELE_patcher/releases/latest/download/ELE_Patcher.exe), then in Synthesis, click on External Program, and browse for the exe.
-  - Not recommended.
+- In Synthesis, click on Git repository, and choose ELE Patcher from the list of patchers
+  - Not available at the time of writing due to an issue on Synthesis' side
+- In Synthesis, click on Git repository, click on Input, and paste in `https://github.com/Benna96-Synthesis/ELE_patcher`, then choose ELE_Patcher from the projects
+- [Grab the exe](https://github.com/Benna96-Synthesis/ELE_patcher/releases/latest/download/ELE_Patcher.exe), then in Synthesis, click on External Program, and browse for the exe
+  - Not recommended
 
 ### Standalone
 
