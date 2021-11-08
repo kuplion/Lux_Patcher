@@ -40,8 +40,6 @@ Carries over all changes from [Enhanced Lighting for ENB](https://www.nexusmods.
 
 If you have Synthesis, there are 3 options:
 - In Synthesis, click on Git repository, and choose ELE Patcher from the list of patchers
-  - Not available at the time of writing due to an issue on Synthesis' side
-- In Synthesis, click on Git repository, click on Input, and paste in `https://github.com/Benna96-Synthesis/ELE_patcher`, then choose ELE_Patcher from the projects
 - [Grab the exe](https://github.com/Benna96-Synthesis/ELE_patcher/releases/latest/download/ELE_Patcher.exe), then in Synthesis, click on External Program, and browse for the exe
   - Not recommended
 
