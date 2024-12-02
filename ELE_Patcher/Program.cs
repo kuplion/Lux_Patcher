@@ -16,7 +16,7 @@ namespace ELE_Patcher
 {
     public class Program
     {
-		private static readonly ModKey KeyELE = ModKey.FromNameAndExtension("ELE_SSE.esp");
+		private static readonly ModKey KeyELE = ModKey.FromNameAndExtension("Ambiance.esp");
 		static Lazy<Settings> Settings = null!;
 
 		public static async Task<int> Main(string[] args)
@@ -27,10 +27,10 @@ namespace ELE_Patcher
 					nickname: "Settings",
 					path: "settings.json",
 					out Settings)
-                .SetTypicalOpen(GameRelease.SkyrimSE, "Synthesis ELE patch.esp")
+                .SetTypicalOpen(GameRelease.SkyrimSE, "Synthesis Ambiance patch.esp")
 				.AddRunnabilityCheck(state =>
 				{
-					state.LoadOrder.AssertHasMod(KeyELE, true, "\n\nELE plugin missing, not active, or inaccessible to patcher!\n\n");
+					state.LoadOrder.AssertHasMod(KeyELE, true, "\n\nAmbiance plugin missing, not active, or inaccessible to patcher!\n\n");
 				})
 				.Run(args);
         }
@@ -48,7 +48,7 @@ namespace ELE_Patcher
 				return;
 
 			using var mod = KeyELE.GetModAndMasters(state, out var masters);
-			Console.WriteLine("\nPatching records from ELE_SSE.esp:");
+			Console.WriteLine("\nPatching records from Ambiance.esp:");
 
 			#region Image spaces
 			Console.WriteLine("- Image spaces");
